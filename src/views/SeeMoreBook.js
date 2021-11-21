@@ -5,7 +5,7 @@ import {Box} from '@mui/material';
 import {CardContent, Button} from '@mui/material';
 
 
-function SeeMoreBook({ tituloLista, seeMoreBook, handleClickDelete, handleOnclickEdit }){
+function SeeMoreBook({ tituloLista, seeMoreBook, handleClickDelete }){
   
     return(
         <>
@@ -17,21 +17,24 @@ function SeeMoreBook({ tituloLista, seeMoreBook, handleClickDelete, handleOnclic
                             Libro
                         </Typography>
                         <Typography variant="h5" sx={{ paddingLeft: 3 }} component="div" color="primary">
-                            {seeMoreBook[0].title}
+                            {seeMoreBook.title}
                         </Typography>
                         <Typography sx={{ mb: 1.5, paddingLeft: 2  } } color="text.secondary">
                             Autor
                         </Typography>
                         <Typography variant="h5" sx={{ paddingLeft: 3 }} color="secondary">
-                            {seeMoreBook[0].author}
+                            {seeMoreBook.author}
                         </Typography>
                     </CardContent>
                 </Box>
                 <div>
                     <Button  component={Link} to={`/`} variant="outlined" color="primary"  sx={{margin: 3}}>Atrás</Button>
-                    <Button  component={Link} to={`/editbook/:id`}  variant="outlined" color="secondary" sx={{margin: 3}} 
-                            name={seeMoreBook[0].id} onClick={handleOnclickEdit }>Editar</Button>
-                    <Button variant="outlined" color="error" sx={{margin: 3}} name={seeMoreBook[0].id} onClick={handleClickDelete}>Eliminar</Button> 
+
+                    <Button  component={Link} to={`/editbook/${seeMoreBook.id}`}  variant="outlined" 
+                        color="secondary" sx={{margin: 3}} >Editar</Button>
+
+                    <Button variant="outlined" color="error" sx={{margin: 3}} name={seeMoreBook.id} 
+                            onClick={handleClickDelete}>Eliminar</Button> 
                 </div>
             </div>
         
