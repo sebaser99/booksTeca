@@ -2,6 +2,8 @@ import React from 'react'
 import {Button} from '@material-ui/core'
 import {FormControl, InputLabel, Input} from "@material-ui/core"
 import Container from '@mui/material/Container';
+import {Link} from 'react-router-dom'
+import Box from '@mui/material/Box';
 
 function NewBookForm({handleChangeInputNewBook, handleSubmitNewBook }){
     return( 
@@ -16,10 +18,14 @@ function NewBookForm({handleChangeInputNewBook, handleSubmitNewBook }){
                     <InputLabel forhtml="author">Autor</InputLabel> 
                     <Input onChange={handleChangeInputNewBook}  name="author" id="author" type="text" placeholder="Ingresa el nombre del autor" />
                 </FormControl>
-                <div style={{marginTop: 30, marginRight: "auto", marginLeft: "auto"}}>
+                <Box sx={{marginRight: "auto", marginLeft: "auto", marginTop: "50px" }}>
                 <Button  type="submit" color="primary" variant="contained">Guardar</Button>
-                </div>   
+                </Box>
+                <Box sx={{marginRight: "auto", marginLeft: "auto", marginTop: "50px" }}>
+                <Button  component={Link} to={`/`}  variant="outlined" color="secondary"  >Cancelar</Button>
+                </Box>
             </form>
+            
         </Container>
     )     
     

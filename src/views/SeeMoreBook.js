@@ -1,12 +1,17 @@
-import React from "react"
-import {Link} from 'react-router-dom'
+import React, {useEffect} from "react"
+import {Link, useParams} from 'react-router-dom'
 import {Typography} from '@mui/material';
 import {Box} from '@mui/material';
 import {CardContent, Button} from '@mui/material';
 
 
-function SeeMoreBook({ tituloLista, seeMoreBook, handleClickDelete }){
-  
+
+function SeeMoreBook({ tituloLista, seeMoreBook, handleClickDelete, getOneBook }){
+    const {id} = useParams();
+    useEffect(()=>{
+        getOneBook(id)
+    }, [])
+    
     return(
         <>
             <h2 style={{textAlign: "center", textTransform: "uppercase"}}>{tituloLista}</h2>

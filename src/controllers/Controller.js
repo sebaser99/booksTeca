@@ -15,6 +15,8 @@ function Controller(){
     
     //estado con la respuesta del fetch donde vienen todos los libros
     const [fetchBooks, setFetchBooks] = useState([])
+    //estado con la respuesta del fetch donde vienen todos los libros
+    const [fetchOneBook, setFetchOneBook] = useState([])
     //estado en el que me doy cuenta si se genera un cambio en los likes. lo declaro para que modifique el useEffect y vuelva a hacer fetch de todos los libros
     const [like, setLike] = useState([false])
     //estado donde voy a recoger el nuevo libro para pasarlo al fetch post de la función newbook
@@ -39,6 +41,14 @@ function Controller(){
         const response = await fetch(urlFetch)
         const resjson = await response.json()
         setFetchBooks(resjson)
+    }
+
+    //función para hacer fetch a un solo libro
+    const getOneBook = async(id) => {
+        const urlFetch = urlApi + id
+        const response = await fetch(urlFetch)
+        const resjson = await response.json()
+        setSeeMoreBook(resjson.data[0])
     }
 
     //efecto para llamar la función getBooks. se activa al iniciar y cuando se modifica la variable de estado likes
@@ -98,7 +108,12 @@ function Controller(){
         e.preventDefault()
         if((newBook.title === "" || !newBook.title) || (newBook.author === "" || !newBook.author)){
     
-            alert("Todos los campos son obligatorios")
+            swal({
+                title: "No se Puede Enviar",
+                text: "Todos los Campos son requeridos",
+                icon: "warning",
+                buttons: "Ok"
+            }) 
             return
         }else{
             postNewBook(newBook)
@@ -111,17 +126,7 @@ function Controller(){
             navigate('/')
         }
     }
-    //esta función me permite ver más detalles del libro
-    const handleClickSeeMore = (e)=>{
-        console.log("seeMore")
-        let id = e.target.name ? e.target.name : e.nativeEvent.name
-        let singleBook = fetchBooks.filter(function (book) {
-            return book.id === parseInt(id)
-         
-          });
-        
-          setSeeMoreBook(singleBook[0])
-    }
+   
   
   
 
@@ -158,7 +163,6 @@ function Controller(){
 
     //función para Editar un libro
     const updateBook = async (id, ele)=>{
-        debugger
         const response = await fetch(urlApi + id, {
             method: 'PUT',
             headers:{'Content-type': 'application/json'},
@@ -190,7 +194,12 @@ function Controller(){
          
             if(seeMoreBook.title === ""  || seeMoreBook.author === "" ){
     
-                alert("Todos los campos son obligatorios")
+                swal({
+                    title: "No se Puede Enviar",
+                    text: "Todos los Campos son requeridos",
+                    icon: "warning",
+                    buttons: "Ok"
+                }) 
                 return
             }else{
               
@@ -212,9 +221,9 @@ function Controller(){
                 <Header />
                 <Routes>
                     <Route path="/" element={<ListBooks tituloLista={"Listado de libros"} fetchBooks={fetchBooks} 
-                            handleClickLike={handleClickLike} handleClickSeeMore={handleClickSeeMore} />}/>   
+                            handleClickLike={handleClickLike} />}/>   
 
-                    <Route path="/seemore/:id"  element={<SeeMoreBook seeMoreBook={seeMoreBook} tituloLista={"Detalles del Libro"}
+                    <Route path="/seemore/:id"  element={<SeeMoreBook getOneBook={getOneBook} seeMoreBook={seeMoreBook} tituloLista={"Detalles del Libro"}
                                 handleClickDelete={handleClickDelete} 
                               />}/>
                            
@@ -223,7 +232,7 @@ function Controller(){
                            newBook={newBook} handleSubmitNewBook={handleSubmitNewBook} />}/>    
 
                     <Route path="/editbook/:id" element={<EditBookForm handleChangeInputEditBook={handleChangeInputEditBook} 
-                            handleSubmitEditBook={handleSubmitEditBook}  seeMoreBook={seeMoreBook} />}/>              
+                            handleSubmitEditBook={handleSubmitEditBook}  seeMoreBook={seeMoreBook} getOneBook={getOneBook} />}/>              
                 </Routes>
                 </Container>
                 
